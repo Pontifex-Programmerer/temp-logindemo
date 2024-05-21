@@ -25,13 +25,14 @@ const login = async (req, res, next)=>{
     try {
         user = await User.login(username, password);
         if(user){
-            const token = generateAccessToken();
+            const {_id, username}  =user
+            const token = generateAccessToken(_id, username);
             responseObject=standardResponse(user.username, {accessToken: token});
         }
     } catch(error){
         console.log(
             'An error occurred\n' +
-            '-------------------' +
+            '-------------------\n' +
             error);
     }
     res.json(responseObject);

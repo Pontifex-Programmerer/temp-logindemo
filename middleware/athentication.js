@@ -12,7 +12,7 @@ const {
 const authenticate = async (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const user = await verifyToken(token);
-    
+    console.log(`authentication module: `, user) 
     if(user!== null){
         next();
     } else {
