@@ -25,7 +25,7 @@ const login = async (req, res, next)=>{
     try {
         user = await User.login(username, password);
         if(user){
-            const {_id, username}  =user
+            const {_id, username}  = user
             const token = generateAccessToken(_id, username);
             responseObject=standardResponse(user.username, {accessToken: token});
         }
@@ -40,8 +40,8 @@ const login = async (req, res, next)=>{
 
 const userAuthorized = (req, res, next) => {
     const {user} = req.body;
+    console.log('req.body.user:', user);
     let responseObject = standardResponse('Anonymous', {message: 'security breached!'});
-    console.log("typeof user:" ,typeof user)
 
     if(typeof user !== 'undefined' && user!==null){
         responseObject=standardResponse('Anonymous', {message: 'Endpoint reached'});

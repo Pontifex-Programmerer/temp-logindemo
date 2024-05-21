@@ -1,21 +1,16 @@
 const jwt = require('jsonwebtoken');
-const tokenSecret = process.env.TOKENSECRET;
+const TOKENSECRET = process.env.TOKENSECRET;
 
-function generateAccessToken(username, user_id){
+function generateAccessToken(user_id, username){
     if(typeof username === 'undefined' || typeof user_id === 'undefined') throw new Error('username or user_id not defined');
     console.log('Generating access token: ', username, user_id);
-    return jwt.sign({username, _id:user_id}, tokenSecret, {expiresIn:"1d"});
+    return jwt.sign({username, _id:user_id}, TOKENSECRET, {expiresIn:"1d"});
 }
 
 async function verifyToken(token){
     let result = null;
-
     try {
-        const {_id, username} = await jwt.verify(token, tokenSecret);
-        console.log('User verified', username);
-        if(user){
-            result=user;
-        }
+        result = await jwt.verify(token, TOKENSECRET);
     } catch(error){
         console.error('Token could not be verified!\n', error)
     }
